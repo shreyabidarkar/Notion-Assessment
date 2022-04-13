@@ -71,39 +71,6 @@ def readDatabase(databaseId, headers):
 def createPage(databaseId, headers, book_name, book_rating, favorite):
     createUrl = 'https://api.notion.com/v1/pages'
 
-    # newPageData = {
-    #     "parent": {"database_id": databaseId},
-    #     "properties": {
-    #         "Description": {
-    #             "title": [
-    #                 {
-    #                     "text": {
-    #                         "content": "Review"
-    #                     }
-    #                 }
-    #             ]
-    #         },
-    #         "Value": {
-    #             "rich_text": [
-    #                 {
-    #                     "text": {
-    #                         "content": "Amazing"
-    #                     }
-    #                 }
-    #             ]
-    #         },
-    #         "Status": {
-    #             "rich_text": [
-    #                 {
-    #                     "text": {
-    #                         "content": "Active"
-    #                     }
-    #                 }
-    #             ]
-    #         }
-    #     }
-    # }
-
     newPageData = {
       "parent": {
         "database_id": databaseId
@@ -143,26 +110,20 @@ def createPage(databaseId, headers, book_name, book_rating, favorite):
 
 
     data = json.dumps(newPageData)
-    # print(str(uploadData))
 
     res = requests.request("POST", createUrl, headers=headers, data=data)
 
     print(res.status_code)
     print(res.text)
 
-def updatePage():
-    pass
+result = parse_rating()
 
-readDatabase(databaseId, headers)
-#
-# result = parse_rating()
-#
-# for index, row in result.iterrows():
-#     book_name = row['Book name']
-#     book_rating = row['Book rating']
-#     favorites = row['Favorites']
-#
-#     createPage(databaseId, headers, book_name, book_rating, favorites)
+for index, row in result.iterrows():
+    book_name = row['Book name']
+    book_rating = row['Book rating']
+    favorites = row['Favorites']
 
-# readDatabase(databaseId, headers)
-# createPage(databaseId, headers, 'ssssss', '1', '2')
+    createPage(databaseId, headers, book_name, book_rating, favorites)
+
+#readDatabase(databaseId, headers)
+createPage(databaseId, headers, 'ssssss', '1', '2')
